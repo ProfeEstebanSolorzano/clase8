@@ -1,0 +1,14 @@
+#preguntas {
+    margin-left: 20%;
+    margin-right: 20%;
+    visibility: hidden;
+}
+
+.pregunta {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.imagenContainer {
+    margin-left: 10%;
+}
