@@ -1,121 +1,110 @@
 const boton = document.querySelector('#boton');
 
 boton.onclick = (e) => {
-    crearPregunta();
+    crearPreguntas();
 }
 
 let infoCompleta;
 
-function iniciar() {
+function traerInformacion() {
     fetch('http://hp-api.herokuapp.com/api/characters')
         .then(respuesta => respuesta.json())
         .then(info => {
-            infoCompleta = info;
-            infoCompleta = infoCompleta.filter(personaje => {
-                return personaje.image && personaje.actor
-            })
-            console.log('Info cargada:', infoCompleta.length)
-        });
+            infoCompleta = info.filter(elemento => elemento.name && elemento.image);
+            console.log('Información lista');
+        })
 }
 
-/* <div class="pregunta">
-<p>--------------------------------------------------</p>
-<div class="imagenContainer">
-    <img src="" alt="">
-</div>
-<div class="preguntaItems">
-    <p>¿Cuál es este actor/actriz?</p>
-    <input type="radio" id="pregunta1A" name="pregunta1" value="">
-    <label for="pregunta1A"></label><br>
-    <input type="radio" id="pregunta1B" name="pregunta1" value="">
-    <label for="pregunta1B"></label><br>
-    <input type="radio" id="pregunta1C" name="pregunta1" value="">
-    <label for="pregunta1C"></label><br>
-    <input type="radio" id="pregunta1D" name="pregunta1" value="">
-    <label for="pregunta1D"></label>
-    <p>--------------------------------------------------</p>
-</div>
-</div> */
-const letras = ['A', 'B', 'C', 'D'];
-let contadorGlobalDePreguntas = 1;
+traerInformacion();
 
-function crearPregunta() {
-    const personaje = infoCompleta[getRandomInt(0, infoCompleta.length - 1)];
+/* <div class="contenedorPregunta">
+            <hr>*
+            <div class="imagenContainer">
+                <img src="http://hp-api.herokuapp.com/images/hermione.jpeg" alt="">
+            </div>*
+            <p class="textoPregunta">Como se llama este personaje?</p>
+            <div class="opcionesContainer">
+                <input type="radio" name="pregunta1" id="">
+                <label for="">Harry Potter</label><br>
+                <input type="radio" name="pregunta1" id="">
+                <label for="">Hermione Granger</label><br>
+                <input type="radio" name="pregunta1" id="">
+                <label for="">Ron Wesley</label><br>
+                <input type="radio" name="pregunta1" id="">
+                <label for="">Albus Dumbledore</label>
+            </div>
+            <hr>
+        </div> */
 
-    console.log(personaje);
-    //creacion de div contenedor principal
-    //no hago append sino hasta el final
-    const divPregunta = document.createElement('div');
-    divPregunta.classList.add('pregunta');
+const tipoPregunta = ['actor', 'name', 'house'];
+const textoPregunta = ['Como se llama el actor?', 'Como se llama el personaje', 'A que casa pertenece?'];
 
-    //crear p
-    const divisor = document.createElement('p');
-    divisor.textContent = '--------------------------------------------------';
-    divPregunta.appendChild(divisor);
+const contadorDePreguntas = 1;
 
-    //div image container
-    const divImg = document.createElement('div');
-    divImg.classList.add('imagenContainer');
-    //como lleva una img por dentro no la voy a hacer append hasta que tenga la img
+function crearPreguntas() {
+    const respuestaCorrecta = getRandomInt(0, 4); // respuesta correcta
+    const personaje = infoCompleta[getRandomInt(0, infoCompleta.length)];
+    //3 pasos para crear elementos
+    //1 createElement. 2 meter informacion o modificar. 3 appenChild
 
-    //creo img
+    //crear div contenedor principal
+    const divPrincipal = document.createElement('div');
+    divPrincipal.classList.add('contenedorPregunta'); //no olvidar hacer append
+
+    const divisor1 = document.createElement('hr')
+    divPrincipal.appendChild(divisor1);
+
+
+    const imagenContainer = document.createElement('div');
+    imagenContainer.classList.add('imagenContainer');
+
     const imagen = document.createElement('img');
     imagen.src = personaje.image;
-    divImg.appendChild(imagen);
+    imagenContainer.appendChild(imagen);
 
-    divPregunta.appendChild(divImg);
+    divPrincipal.appendChild(imagenContainer);
 
-    const divItems = document.createElement('div');
-    divItems.classList.add('preguntaItems');
+    const texto = document.createElement('p');
+    texto.classList.add('textoPregunta');
+    texto.textContent = 'Como se llama el/la actor/actriz?';
 
-    //crear p
-    const p = document.createElement('p');
-    p.textContent = '¿Cuál es este actor/actriz?';
-    divItems.appendChild(p);
+    divPrincipal.appendChild(texto);
 
-    //crear los 4 input y label
+    const opcionesContainer = document.createElement('div');
+    opcionesContainer.classList.add('opcionesContainer'); //no olvidar hacer append
+
     for (let i = 0; i < 4; i++) {
-        //creo input
         const input = document.createElement('input');
         input.type = 'radio';
-        input.name = `pregunta${contadorGlobalDePreguntas}`;
-        input.id = `pregunta${contadorGlobalDePreguntas}${letras[i]}`;
-        //creo label
+        input.name = `pregunta${contadorDePreguntas}`;
+
         const label = document.createElement('label');
-        label.setAttribute('for', `pregunta${contadorGlobalDePreguntas}${letras[i]}`);
-        //les pongo values iguales al lable y al input
-        if (i === 0) {
-            input.value = personaje.actor;
-            label.textContent = personaje.actor
+
+        if (i === respuestaCorrecta) {
+            input.value = true;
+            label.textContent = personaje.actor;
         } else {
-            input.value = infoCompleta[getRandomInt(0, infoCompleta.length - 1)].actor;
-            label.textContent = input.value;
+            input.value = false;
+            label.textContent = infoCompleta[getRandomInt(0, infoCompleta.length)].actor;
         }
-        divItems.appendChild(input);
-        divItems.appendChild(label);
 
-        const br = document.createElement('br');
-        divItems.appendChild(br);
+        opcionesContainer.appendChild(input);
+        opcionesContainer.appendChild(label);
+
+        const espacio = document.createElement('br')
+        opcionesContainer.appendChild(espacio)
     }
-    divPregunta.appendChild(divItems);
-    //crear segundo divisor
-    const divisor2 = document.createElement('p');
-    divisor2.textContent = '--------------------------------------------------';
-    divPregunta.appendChild(divisor2);
-    document.querySelector('#preguntas').appendChild(divPregunta);
-    contadorGlobalDePreguntas++;
+
+    divPrincipal.appendChild(opcionesContainer);
+
+    const divisor2 = document.createElement('hr')
+    divPrincipal.appendChild(divisor2);
+
+    document.querySelector('#preguntas').appendChild(divPrincipal);
+
 }
 
 
-function probarQueFunciona() {
-    document.querySelector('img').src = infoCompleta[0].image;
-    document.querySelectorAll('input[type=radio]').forEach((elemento, i) => {
-        elemento.value = infoCompleta[i].actor;
-        document.querySelector(`label[for=${elemento.id}]`).textContent = infoCompleta[i].actor;
-    })
-}
-
-iniciar();
 
 
 //helper
