@@ -1,14 +1,20 @@
 #preguntas {
     margin-left: 20%;
-    margin-right: 20%;
+    margin-right: 30%;
     visibility: visible;
 }
 
 .pregunta {
-    margin-left: 20%;
+    margin-left: 5%;
     margin-right: 20%;
+    padding-bottom: 50px;
 }
 
 .imagenContainer {
     margin-left: 10%;
+}
+
+img {
+    width: 150px;
+    height: 200;
 }
