@@ -18,3 +18,23 @@ img {
     width: 150px;
     height: 200;
 }
+
+.invisible {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
+
+.rojo {
+    color: red;
+}
+
+.verde {
+    color: green;
+}
+
+#nota {
+    font-size: 5em;
+}
