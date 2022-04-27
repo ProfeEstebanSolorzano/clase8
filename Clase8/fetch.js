@@ -28,6 +28,8 @@ function traerPokemon() {
         })
 }
 
+
+
 const body = document.querySelector('body');
 
 function compararPesos() {

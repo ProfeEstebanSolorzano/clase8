@@ -27,6 +27,9 @@ boton.onclick = (e) => {
 // }
 
 
+
+
+
 async function esperoYEscriboPromise() {
     const fallo = true;
     return new Promise(

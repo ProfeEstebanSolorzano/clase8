@@ -15,6 +15,9 @@ function traerInformacion() {
         })
 }
 
+
+
+
 traerInformacion();
 
 /* <div class="contenedorPregunta">
