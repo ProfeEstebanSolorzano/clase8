@@ -1,0 +1,13 @@
+.pregunta {
+    margin-bottom: 50px;
+    margin-left: 50px;
+}
+
+.pokeImagen {
+    height: 15%;
+    width: 15%;
+}
+
+.pregunta p {
+    margin-top: 0;
+}
